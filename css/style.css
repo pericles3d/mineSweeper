@@ -1,0 +1,90 @@
+.container{
+  margin: 0 auto;
+  width: 790px;
+}
+
+.box{
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgb(58, 58, 58);
+  float: left;
+  position: relative;
+  display: inline-block;
+  border-radius: 3px;
+  margin: 1px;
+  text-align: center;
+}
+
+.solid{
+  background-color: rgb(185, 185, 185);
+}
+
+.empty{
+  background-color: rgb(245, 245, 245);
+  text-align: center;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.one{
+  background-color: rgb(245, 245, 245);
+  color: blue;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.two{
+  background-color: rgb(245, 245, 245);
+  color: green;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.three{
+  background-color: rgb(245, 245, 245);
+  color: red;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.four{
+  background-color: rgb(245, 245, 245);
+  color: purple;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.five{
+  background-color: rgb(245, 245, 245);
+  color: maroon;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.six{
+  background-color: rgb(245, 245, 245);
+  color: turquoise;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.seven{
+  background-color: rgb(245, 245, 245);
+  color: black;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.eight{
+  background-color: rgb(245, 245, 245);
+  color: gray;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
