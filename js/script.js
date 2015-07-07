@@ -1,33 +1,30 @@
-// var s = {
-//   rows: 16,
-//   cols: 30,
-//   width: 32,
-//   height: 32,
-// };
-//
-// var c;
-//
-// window.onload = function(){
-//   var canvas = document.querySelector('#mineField');
-//   c = canvas.getContext("2d");
-//   init();
-// };
-//
-// var box;
-//
-// function init(){
-//   box = new Image();
-//   box.src = "images/squareImg.jpg";
-//   drawCanvas();
+var bombAmount = 50;
+var rows = 16;
+var columns = 30;
+
+// Generating random bomb location.
+var bombGenerate = [];
+
+for (var i = 0; i < bombAmount; i++){
+  bombGenerate[i] = [
+    Math.ceil(Math.random() * rows),
+    Math.ceil(Math.random() * columns)];
+}
+
+for (var i = 0; i < bombAmount; i++){
+  document.querySelector('#_'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).innerText = "B";
+}
+
+
+
+// document.querySelector("#d24").id.charAt(document.querySelector("#d24").id.length-2);
+// document.querySelector("#d24").id.charAt(0);
+
+// onClick
+// var allBoxes = document.querySelectorAll(".box");
+// for (var i = 0; i < allBoxes.length; i++){
+//   allBoxes[i].addEventListener('click', onClick);
 // }
+// function onClick{
 //
-// function drawCanvas(){
-//   c.clearRect(0,0,400,400);
-//   for(var i = 0; i < s.rows; i++){
-//     for(var n = 0; n < s.cols; n++){
-//       var x = n * s.width;
-//       var y = i * s.height;
-//       c.drawImage(box, x, y);
-//     }
-//   }
 // }
