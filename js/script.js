@@ -25,12 +25,14 @@ for (var i = 0; i < bombAmount; i++){
 
 // Generating number of bombs surrounding each box.
 
-var sqRow = document.querySelector("#_07_13").id.charAt(1) + document.querySelector("#_07_13").id.charAt(2);
-var sqCol = document.querySelector("#_07_13").id.charAt(4) + document.querySelector("#_07_13").id.charAt(5);
-var sqRowUp = ("0" + (Number(sqRow) - 1)).slice(-2);
-var sqRowDown = ("0" + (Number(sqRow) + 1)).slice(-2);
-var sqColLeft = ("0" + (Number(sqCol) - 1)).slice(-2);
-var sqColRight = ("0" + (Number(sqCol) + 1)).slice(-2);
+for (var x = 2; x < rows; x++){
+  for (var y = 2; y < columns; y++){
+    var sqRow = ("0" + x).slice(-2);
+    var sqCol = ("0" + y).slice(-2);
+    var sqRowUp = ("0" + (Number(sqRow) - 1)).slice(-2);
+    var sqRowDown = ("0" + (Number(sqRow) + 1)).slice(-2);
+    var sqColLeft = ("0" + (Number(sqCol) - 1)).slice(-2);
+    var sqColRight = ("0" + (Number(sqCol) + 1)).slice(-2);
 
 var symbol = 0;
 if (document.querySelector("#_" + sqRowUp + "_" + sqColLeft).innerText === "B"){
@@ -49,11 +51,15 @@ if (document.querySelector("#_" + sqRowDown + "_" + sqCol).innerText === "B"){
   symbol += 1;}
 if (document.querySelector("#_" + sqRowDown + "_" + sqColRight).innerText === "B"){
   symbol += 1;}
-if (document.querySelector("#_07_13").innerText === "B"){
+if (document.querySelector("#_" + sqRow + "_" + sqCol).innerText === "B"){
   symbol = "B";}
 if (symbol === 0){
   symbol = "";}
-document.querySelector("#_07_13").innerText = symbol;
+document.querySelector("#_" + sqRow + "_" + sqCol).innerText = symbol;
+  }
+}
+
+
 
 
 // onClick
