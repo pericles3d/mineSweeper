@@ -1,4 +1,4 @@
-var bombAmount = 2;
+var bombAmount = 10;
 var rows = 16;
 var columns = 30;
 
@@ -30,20 +30,40 @@ function onClick(){
 
     //Search Up
     for (var up = 0; up < (curRow-1); up++){
-    var a = document.querySelector("#_" + ("0" + (Number(curRowUp) - up)).slice(-2) + "_" + curCol);
-    if(a.innerText === ""){
-       a.classList.add("empty");
+    var aUp = document.querySelector("#_" + ("0" + (Number(curRowUp) - up)).slice(-2) + "_" + curCol);
+    if(aUp.innerText === ""){
+       aUp.classList.add("empty");
     } else {
       up = curRow;
     }
   }
     //Search Down
     for (var down = 0; down < (rows - curRow); down++){
-    var a = document.querySelector("#_" + ("0" + (Number(curRowDown) + down)).slice(-2) + "_" + curCol);
-    if(a.innerText === ""){
-       a.classList.add("empty");
+    var aDown = document.querySelector("#_" + ("0" + (Number(curRowDown) + down)).slice(-2) + "_" + curCol);
+    if(aDown.innerText === ""){
+       aDown.classList.add("empty");
     } else {
       down = (rows - curRow);
+    }
+  }
+
+    //Search Left
+    for (var left = 0; left < (curCol - 1); left++){
+    var aLeft = document.querySelector("#_" + curRow + "_" + ("0" + (Number(curColLeft) - left)).slice(-2));
+    if(aLeft.innerText === ""){
+       aLeft.classList.add("empty");
+    } else {
+      left = curCol;
+    }
+  }
+
+    //Search Right
+    for (var right = 0; right < (columns - curCol); right++){
+    var aRight = document.querySelector("#_" + curRow + "_" + ("0" + (Number(curColRight) + right)).slice(-2));
+    if(aRight.innerText === ""){
+       aRight.classList.add("empty");
+    } else {
+      right = (columns - curCol);
     }
   }
     // console.log("curRowUp: " + curRowUp);
