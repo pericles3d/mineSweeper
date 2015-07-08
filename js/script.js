@@ -27,18 +27,29 @@ function onClick(){
     // console.log("curRowUp: " + curRowUp);
     // console.log("curRowDown: " + curRowDown);
     // console.log(document.querySelector("#_" + curRowUp + "_" + curCol).innerText);
-    for (var i = 0; i < curRow; i++){
-    var a = document.querySelector("#_" + ("0" + (Number(curRowUp) - i)).slice(-2) + "_" + curCol);
+
+    //Search Up
+    for (var up = 0; up < (curRow-1); up++){
+    var a = document.querySelector("#_" + ("0" + (Number(curRowUp) - up)).slice(-2) + "_" + curCol);
+    if(a.innerText === ""){
+       a.classList.add("empty");
+    } else {
+      up = curRow;
+    }
+  }
+    //Search Down
+    for (var down = 0; down < (rows - curRow); down++){
+    var a = document.querySelector("#_" + ("0" + (Number(curRowDown) + down)).slice(-2) + "_" + curCol);
+    if(a.innerText === ""){
+       a.classList.add("empty");
+    } else {
+      down = (rows - curRow);
+    }
+  }
     // console.log("curRowUp: " + curRowUp);
     // console.log("rowUp - i: " + ("0" + (Number(curRowUp) - i)).slice(-2));
     // console.log("i: " + i);
     // console.log("a: " + a.innerText);
-    if(a.innerText === ""){
-       a.classList.add("empty");
-    } else {
-      i = curRow;
-    }
-  }
     // document.querySelector("#_" + )
   } else if (this.innerText === "1"){
     this.classList.add("one");
