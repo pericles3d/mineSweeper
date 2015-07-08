@@ -1,4 +1,4 @@
-var bombAmount = 70;
+var bombAmount = 2;
 var rows = 16;
 var columns = 30;
 
@@ -7,10 +7,39 @@ var allBoxes = document.querySelectorAll(".box");
 for (var i = 0; i < allBoxes.length; i++){
   allBoxes[i].addEventListener('click', onClick);
 }
+
+function searchUp(){
+
+}
+
 function onClick(){
   if(this.innerText === ""){
     this.classList.add("empty");
-    lookForEmpty();
+    var curSquare = this.id;
+    var curRow = curSquare.slice(1,3); //assigns current row number to a variable.
+    var curCol = curSquare.slice(4,6); //assigns current col number to a variable.
+    console.log("curRow: " + curRow);
+    console.log("curCol: " + curCol);
+    var curRowUp = ("0" + (Number(curRow) - 1)).slice(-2);
+    var curRowDown = ("0" + (Number(curRow) + 1)).slice(-2);
+    var curColLeft = ("0" + (Number(curCol) - 1)).slice(-2);
+    var curColRight = ("0" + (Number(curCol) + 1)).slice(-2);
+    // console.log("curRowUp: " + curRowUp);
+    // console.log("curRowDown: " + curRowDown);
+    // console.log(document.querySelector("#_" + curRowUp + "_" + curCol).innerText);
+    for (var i = 0; i < curRow; i++){
+    var a = document.querySelector("#_" + ("0" + (Number(curRowUp) - i)).slice(-2) + "_" + curCol);
+    // console.log("curRowUp: " + curRowUp);
+    // console.log("rowUp - i: " + ("0" + (Number(curRowUp) - i)).slice(-2));
+    // console.log("i: " + i);
+    // console.log("a: " + a.innerText);
+    if(a.innerText === ""){
+       a.classList.add("empty");
+    } else {
+      i = curRow;
+    }
+  }
+    // document.querySelector("#_" + )
   } else if (this.innerText === "1"){
     this.classList.add("one");
   } else if (this.innerText === "2"){
@@ -32,12 +61,6 @@ function onClick(){
     console.log("Kaboom!!!");
     endGame();
   }
-}
-
-// This function will look for empty squares next to an open
-// square that has just been clicked and open them as well.
-function lookForEmpty(){
-
 }
 
 
