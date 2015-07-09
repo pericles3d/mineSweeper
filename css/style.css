@@ -1,3 +1,13 @@
+/*prevents text from being selected*/
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .container{
   margin: 0 auto;
   width: 790px;
@@ -110,7 +120,15 @@
 }
 
 .bomb{
-  background-color: black;
+  background-color: rgb(185, 185, 185);
+  color: red;
+  font-weight: bold;
+  line-height: 22px;
+  border: 1px solid rgb(153, 153, 153);
+}
+
+.bombExploded{
+  background-color: rgb(185, 185, 185);
   color: red;
   font-weight: bold;
   line-height: 22px;

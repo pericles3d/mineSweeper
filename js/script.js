@@ -11,7 +11,7 @@ for (var i = 0; i < allBoxes.length; i++){
 // Checking the board for empty squares and opening them.
 var checkTimes = 0;
 function checkBoard(){
-  if (checkTimes <= 2){
+  if (checkTimes <= 4){
     for (x = 1; x <= rows; x++){
       for (y = 1; y <= columns; y++){
         curRow = ("0" + x).slice(-2);
@@ -47,9 +47,12 @@ function onClick(){
     return false;
   }
   if (chronoRunning === false){  // checks if chrono is already running (true after first click)
-    chronoStart();
+    chronoStart();               // checks if chrono is already running (true after first click)
+  }                              // checks if chrono is already running (true after first click)
+  chronoRunning = true;          // checks if chrono is already running (true after first click)
+  if(this.innerHTML === '<img src="images/flag_icon.png">'){    // checks if a bomb is flagged and won't let you click it.
+    return false;
   }
-  chronoRunning = true;
   if(this.lang === ""){
     this.classList.add("empty");
     this.innerText = "";
@@ -92,8 +95,9 @@ function onClick(){
     this.classList.add("eight");
     this.innerText = "8";
   } else if (this.lang === "B"){
-    this.classList.add("bomb");
-    this.innerText = "B";
+    this.lang = "boom";
+    this.classList.add("bombExploded");
+    this.innerHTML = '<img src="images/boom_icon.png">';
     endGame();
   }
 }
@@ -459,7 +463,7 @@ function endGame(){
   for (var i = 0; i < allBoxes.length; i++){
     if (allBoxes[i].lang === "B"){
       allBoxes[i].classList.add("bomb");  // Displays remaining bombs
-      allBoxes[i].innerText = "B";
+      allBoxes[i].innerHTML = '<img src="images/bomb_icon.png">';
     }
   }
 }
@@ -467,14 +471,18 @@ function endGame(){
 //display bombs marked wrong
 
 
-// on Right click (Add flag to where you think a bomb is)
-// Still need flag icon.
+// on Right click (Add flag to where you think a bomb is. Remove flag as well)
 for (var i = 0; i < allBoxes.length; i++){
   allBoxes[i].addEventListener('contextmenu', onRightClick);
 }
 function onRightClick(ev){
-ev.preventDefault();
-  this.lang = "X";
+  ev.preventDefault();
+  if(this.innerText === "" && this.innerHTML === ""){
+    this.innerHTML = '<img src="images/flag_icon.png">';
+    console.log(this.innerHTML);
+  } else if (this.innerHTML === '<img src="images/flag_icon.png">'){
+    this.innerHTML = "";
+  }
 }
 
 
