@@ -1,4 +1,4 @@
-var bombAmount = 10;
+var bombAmount = 70;
 var rows = 16;
 var columns = 30;
 
@@ -8,69 +8,46 @@ for (var i = 0; i < allBoxes.length; i++){
   allBoxes[i].addEventListener('click', onClick);
 }
 
-function searchUp(){
-
+// Checking the board for empty squares and opening them.
+var checkTimes = 0;
+function checkBoard(){
+  if (checkTimes <= 2){
+    for (x = 1; x <= rows; x++){
+      for (y = 1; y <= columns; y++){
+        curRow = ("0" + x).slice(-2);
+        curCol = ("0" + y).slice(-2);
+        if(document.querySelector("#_" + curRow + "_" + curCol).classList.contains("empty")){
+          console.log("current row = " + curRow);
+          console.log("current col = " + curCol);
+          searchUp();
+          searchDown();
+          searchLeft();
+          searchRight();
+        }
+      }
+    } checkTimes = checkTimes + 1;
+      console.log(checkTimes);
+      checkBoard();
+  }
 }
 
+
+// On first click. Start game.
+var curRow;
+var curCol;
 function onClick(){
   if(this.innerText === ""){
     this.classList.add("empty");
     var curSquare = this.id;
-    var curRow = curSquare.slice(1,3); //assigns current row number to a variable.
-    var curCol = curSquare.slice(4,6); //assigns current col number to a variable.
+    curRow = curSquare.slice(1,3); //assigns current row number to a variable.
+    curCol = curSquare.slice(4,6); //assigns current col number to a variable.
     console.log("curRow: " + curRow);
     console.log("curCol: " + curCol);
-    var curRowUp = ("0" + (Number(curRow) - 1)).slice(-2);
-    var curRowDown = ("0" + (Number(curRow) + 1)).slice(-2);
-    var curColLeft = ("0" + (Number(curCol) - 1)).slice(-2);
-    var curColRight = ("0" + (Number(curCol) + 1)).slice(-2);
-    // console.log("curRowUp: " + curRowUp);
-    // console.log("curRowDown: " + curRowDown);
-    // console.log(document.querySelector("#_" + curRowUp + "_" + curCol).innerText);
-
-    //Search Up
-    for (var up = 0; up < (curRow-1); up++){
-    var aUp = document.querySelector("#_" + ("0" + (Number(curRowUp) - up)).slice(-2) + "_" + curCol);
-    if(aUp.innerText === ""){
-       aUp.classList.add("empty");
-    } else {
-      up = curRow;
-    }
-  }
-    //Search Down
-    for (var down = 0; down < (rows - curRow); down++){
-    var aDown = document.querySelector("#_" + ("0" + (Number(curRowDown) + down)).slice(-2) + "_" + curCol);
-    if(aDown.innerText === ""){
-       aDown.classList.add("empty");
-    } else {
-      down = (rows - curRow);
-    }
-  }
-
-    //Search Left
-    for (var left = 0; left < (curCol - 1); left++){
-    var aLeft = document.querySelector("#_" + curRow + "_" + ("0" + (Number(curColLeft) - left)).slice(-2));
-    if(aLeft.innerText === ""){
-       aLeft.classList.add("empty");
-    } else {
-      left = curCol;
-    }
-  }
-
-    //Search Right
-    for (var right = 0; right < (columns - curCol); right++){
-    var aRight = document.querySelector("#_" + curRow + "_" + ("0" + (Number(curColRight) + right)).slice(-2));
-    if(aRight.innerText === ""){
-       aRight.classList.add("empty");
-    } else {
-      right = (columns - curCol);
-    }
-  }
-    // console.log("curRowUp: " + curRowUp);
-    // console.log("rowUp - i: " + ("0" + (Number(curRowUp) - i)).slice(-2));
-    // console.log("i: " + i);
-    // console.log("a: " + a.innerText);
-    // document.querySelector("#_" + )
+    searchUp();
+    searchDown();
+    searchLeft();
+    searchRight();
+    checkBoard();
   } else if (this.innerText === "1"){
     this.classList.add("one");
   } else if (this.innerText === "2"){
@@ -94,6 +71,64 @@ function onClick(){
   }
 }
 
+//Search Up
+function searchUp(){
+  for (var up = 0; up < (curRow-1); up++){
+    var aUp = document.querySelector("#_" + ("0" + ((Number(curRow) - 1) - up)).slice(-2) + "_" + curCol);
+    if(aUp.innerText === ""){
+      aUp.classList.add("empty");
+    } else if (aUp.innerText === "1"){
+        aUp.classList.add("one");
+        up = curRow;
+    } else {
+        up = curRow;
+    }
+  }
+}
+//Search Down
+function searchDown(){
+  for (var down = 0; down < (rows - curRow); down++){
+    var aDown = document.querySelector("#_" + ("0" + ((Number(curRow) + 1) + down)).slice(-2) + "_" + curCol);
+    if(aDown.innerText === ""){
+      aDown.classList.add("empty");
+    } else if (aDown.innerText === "1"){
+        aDown.classList.add("one");
+        down = (rows - curRow);
+    } else {
+        down = (rows - curRow);
+    }
+  }
+}
+
+//Search Left
+function searchLeft(){
+  for (var left = 0; left < (curCol - 1); left++){
+    var aLeft = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) - 1) - left)).slice(-2));
+    if(aLeft.innerText === ""){
+      aLeft.classList.add("empty");
+    } else if (aLeft.innerText === "1"){
+        aLeft.classList.add("one");
+        left = curCol;
+    }  else {
+        left = curCol;
+    }
+  }
+}
+
+//Search Right
+function searchRight(){
+  for (var right = 0; right < (columns - curCol); right++){
+    var aRight = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) + 1) + right)).slice(-2));
+    if(aRight.innerText === ""){
+      aRight.classList.add("empty");
+    } else if (aRight.innerText === "1"){
+        aRight.classList.add("one");
+        right = (columns - curCol);
+    } else {
+        right = (columns - curCol);
+    }
+  }
+}
 
 function endGame(){
   for (var i = 0; i < allBoxes.length; i++){
