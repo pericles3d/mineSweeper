@@ -50,8 +50,9 @@ function onClick(){
     chronoStart();
   }
   chronoRunning = true;
-  if(this.innerText === ""){
+  if(this.lang === ""){
     this.classList.add("empty");
+    this.innerText = "";
     var curSquare = this.id;
     curRow = curSquare.slice(1,3); //assigns current row number to a variable.
     curCol = curSquare.slice(4,6); //assigns current col number to a variable.
@@ -66,24 +67,33 @@ function onClick(){
     searchDownLeft();
     searchDownRight();
     checkBoard();
-  } else if (this.innerText === "1"){
+  } else if (this.lang === "1"){
     this.classList.add("one");
-  } else if (this.innerText === "2"){
+    this.innerText = "1";
+  } else if (this.lang === "2"){
     this.classList.add("two");
-  } else if (this.innerText === "3"){
+    this.innerText = "2";
+  } else if (this.lang === "3"){
     this.classList.add("three");
-  } else if (this.innerText === "4"){
+    this.innerText = "3";
+  } else if (this.lang === "4"){
     this.classList.add("four");
-  } else if (this.innerText === "5"){
+    this.innerText = "4";
+  } else if (this.lang === "5"){
     this.classList.add("five");
-  } else if (this.innerText === "6"){
+    this.innerText = "5";
+  } else if (this.lang === "6"){
     this.classList.add("six");
-  } else if (this.innerText === "7"){
+    this.innerText = "6";
+  } else if (this.lang === "7"){
     this.classList.add("seven");
-  } else if (this.innerText === "8"){
+    this.innerText = "7";
+  } else if (this.lang === "8"){
     this.classList.add("eight");
-  } else if (this.innerText === "B"){
+    this.innerText = "8";
+  } else if (this.lang === "B"){
     this.classList.add("bomb");
+    this.innerText = "B";
     endGame();
   }
 }
@@ -92,25 +102,32 @@ function onClick(){
 function searchUp(){
   for (var up = 0; up < (curRow-1); up++){
     var aUp = document.querySelector("#_" + ("0" + ((Number(curRow) - 1) - up)).slice(-2) + "_" + curCol);
-    if(aUp.innerText === ""){
+    if(aUp.lang === ""){
       aUp.classList.add("empty");
-    } else if (aUp.innerText === "1"){
+      aUp.innerText = "";
+    } else if (aUp.lang === "1"){
         aUp.classList.add("one");
+        aUp.innerText = "1";
         up = curRow;
-    } else if (aUp.innerText === "2"){
+    } else if (aUp.lang === "2"){
         aUp.classList.add("two");
+        aUp.innerText = "2";
         up = curRow;
-    } else if (aUp.innerText === "3"){
+    } else if (aUp.lang === "3"){
         aUp.classList.add("three");
+        aUp.innerText = "3";
         up = curRow;
-    } else if (aUp.innerText === "4"){
+    } else if (aUp.lang === "4"){
         aUp.classList.add("four");
+        aUp.innerText = "4";
         up = curRow;
-    } else if (aUp.innerText === "5"){
+    } else if (aUp.lang === "5"){
         aUp.classList.add("five");
+        aUp.innerText = "5";
         up = curRow;
-    } else if (aUp.innerText === "6"){
+    } else if (aUp.lang === "6"){
         aUp.classList.add("six");
+        aUp.innerText = "6";
         up = curRow;
     } else {
         up = curRow;
@@ -121,25 +138,32 @@ function searchUp(){
 function searchDown(){
   for (var down = 0; down < (rows - curRow); down++){
     var aDown = document.querySelector("#_" + ("0" + ((Number(curRow) + 1) + down)).slice(-2) + "_" + curCol);
-    if(aDown.innerText === ""){
+    if(aDown.lang === ""){
       aDown.classList.add("empty");
-    } else if (aDown.innerText === "1"){
+      aDown.innerText = "";
+    } else if (aDown.lang === "1"){
         aDown.classList.add("one");
+        aDown.innerText = "1";
         down = (rows - curRow);
-    } else if (aDown.innerText === "2"){
+    } else if (aDown.lang === "2"){
         aDown.classList.add("two");
+        aDown.innerText = "2";
         down = (rows - curRow);
-    } else if (aDown.innerText === "3"){
+    } else if (aDown.lang === "3"){
         aDown.classList.add("three");
+        aDown.innerText = "3";
         down = (rows - curRow);
-    } else if (aDown.innerText === "4"){
+    } else if (aDown.lang === "4"){
         aDown.classList.add("four");
+        aDown.innerText = "4";
         down = (rows - curRow);
-    } else if (aDown.innerText === "5"){
+    } else if (aDown.lang === "5"){
         aDown.classList.add("five");
+        aDown.innerText = "5";
         down = (rows - curRow);
-    } else if (aDown.innerText === "6"){
+    } else if (aDown.lang === "6"){
         aDown.classList.add("six");
+        aDown.innerText = "6";
         down = (rows - curRow);
     } else {
         down = (rows - curRow);
@@ -151,25 +175,32 @@ function searchDown(){
 function searchLeft(){
   for (var left = 0; left < (curCol - 1); left++){
     var aLeft = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) - 1) - left)).slice(-2));
-    if(aLeft.innerText === ""){
+    if(aLeft.lang === ""){
       aLeft.classList.add("empty");
-    } else if (aLeft.innerText === "1"){
+      aLeft.innerText = "";
+    } else if (aLeft.lang === "1"){
         aLeft.classList.add("one");
+        aLeft.innerText = "1";
         left = curCol;
-    } else if (aLeft.innerText === "2"){
+    } else if (aLeft.lang === "2"){
         aLeft.classList.add("two");
+        aLeft.innerText = "2";
         left = curCol;
-    } else if (aLeft.innerText === "3"){
+    } else if (aLeft.lang === "3"){
         aLeft.classList.add("three");
+        aLeft.innerText = "3";
         left = curCol;
-    } else if (aLeft.innerText === "4"){
+    } else if (aLeft.lang === "4"){
         aLeft.classList.add("four");
+        aLeft.innerText = "4";
         left = curCol;
-    } else if (aLeft.innerText === "5"){
+    } else if (aLeft.lang === "5"){
         aLeft.classList.add("five");
+        aLeft.innerText = "5";
         left = curCol;
-    } else if (aLeft.innerText === "6"){
+    } else if (aLeft.lang === "6"){
         aLeft.classList.add("six");
+        aLeft.innerText = "6";
         left = curCol;
     }  else {
         left = curCol;
@@ -181,25 +212,32 @@ function searchLeft(){
 function searchRight(){
   for (var right = 0; right < (columns - curCol); right++){
     var aRight = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) + 1) + right)).slice(-2));
-    if(aRight.innerText === ""){
+    if(aRight.lang === ""){
       aRight.classList.add("empty");
-    } else if (aRight.innerText === "1"){
+      aRight.innerText = "";
+    } else if (aRight.lang === "1"){
         aRight.classList.add("one");
+        aRight.innerText = "1";
         right = (columns - curCol);
-    } else if (aRight.innerText === "2"){
+    } else if (aRight.lang === "2"){
         aRight.classList.add("two");
+        aRight.innerText = "2";
         right = (columns - curCol);
-    } else if (aRight.innerText === "3"){
+    } else if (aRight.lang === "3"){
         aRight.classList.add("three");
+        aRight.innerText = "3";
         right = (columns - curCol);
-    } else if (aRight.innerText === "4"){
+    } else if (aRight.lang === "4"){
         aRight.classList.add("four");
+        aRight.innerText = "4";
         right = (columns - curCol);
-    } else if (aRight.innerText === "5"){
+    } else if (aRight.lang === "5"){
         aRight.classList.add("five");
+        aRight.innerText = "5";
         right = (columns - curCol);
-    } else if (aRight.innerText === "6"){
+    } else if (aRight.lang === "6"){
         aRight.classList.add("six");
+        aRight.innerText = "6";
         right = (columns - curCol);
     } else {
         right = (columns - curCol);
@@ -217,25 +255,32 @@ function searchUpLeft(){
   }
   for (var upLeft = 0; upLeft < maxUpLeft; upLeft++){
     var aUpLeft = document.querySelector("#_" + ("0" + ((Number(curRow) - 1) - upLeft)).slice(-2) + "_" + ("0" + ((Number(curCol) - 1) - upLeft)).slice(-2));
-    if(aUpLeft.innerText === ""){
+    if(aUpLeft.lang === ""){
       aUpLeft.classList.add("empty");
-    } else if (aUpLeft.innerText === "1"){
+      aUpLeft.innerText = "";
+    } else if (aUpLeft.lang === "1"){
         aUpLeft.classList.add("one");
+        aUpLeft.innerText = "1";
         upLeft = maxUpLeft;
-    } else if (aUpLeft.innerText === "2"){
+    } else if (aUpLeft.lang === "2"){
         aUpLeft.classList.add("two");
+        aUpLeft.innerText = "2";
         upLeft = maxUpLeft;
-    } else if (aUpLeft.innerText === "3"){
+    } else if (aUpLeft.lang === "3"){
         aUpLeft.classList.add("three");
+        aUpLeft.innerText = "3";
         upLeft = maxUpLeft;
-    } else if (aUpLeft.innerText === "4"){
+    } else if (aUpLeft.lang === "4"){
         aUpLeft.classList.add("four");
+        aUpLeft.innerText = "4";
         upLeft = maxUpLeft;
-    } else if (aUpLeft.innerText === "5"){
+    } else if (aUpLeft.lang === "5"){
         aUpLeft.classList.add("five");
+        aUpLeft.innerText = "5";
         upLeft = maxUpLeft;
-    } else if (aUpLeft.innerText === "6"){
+    } else if (aUpLeft.lang === "6"){
         aUpLeft.classList.add("six");
+        aUpLeft.innerText = "6";
         upLeft = maxUpLeft;
     } else {
         upLeft = maxUpLeft;
@@ -253,25 +298,32 @@ function searchUpRight(){
   }
   for (var upRight = 0; upRight < maxUpRight; upRight++){
     var aUpRight = document.querySelector("#_" + ("0" + ((Number(curRow) - 1) - upRight)).slice(-2) + "_" + ("0" + ((Number(curCol) + 1) + upRight)).slice(-2));
-    if(aUpRight.innerText === ""){
+    if(aUpRight.lang === ""){
       aUpRight.classList.add("empty");
-    } else if (aUpRight.innerText === "1"){
+      aUpRight.innerText = "";
+    } else if (aUpRight.lang === "1"){
         aUpRight.classList.add("one");
+        aUpRight.innerText = "1";
         upRight = maxUpRight;
-    } else if (aUpRight.innerText === "2"){
+    } else if (aUpRight.lang === "2"){
         aUpRight.classList.add("two");
+        aUpRight.innerText = "2";
         upRight = maxUpRight;
-    } else if (aUpRight.innerText === "3"){
+    } else if (aUpRight.lang === "3"){
         aUpRight.classList.add("three");
+        aUpRight.innerText = "3";
         upRight = maxUpRight;
-    } else if (aUpRight.innerText === "4"){
+    } else if (aUpRight.lang === "4"){
         aUpRight.classList.add("four");
+        aUpRight.innerText = "4";
         upRight = maxUpRight;
-    } else if (aUpRight.innerText === "5"){
+    } else if (aUpRight.lang === "5"){
         aUpRight.classList.add("five");
+        aUpRight.innerText = "5";
         upRight = maxUpRight;
-    } else if (aUpRight.innerText === "6"){
+    } else if (aUpRight.lang === "6"){
         aUpRight.classList.add("six");
+        aUpRight.innerText = "6";
         upRight = maxUpRight;
     } else {
         upRight = maxUpRight;
@@ -289,25 +341,32 @@ function searchDownLeft(){
   }
   for (var downLeft = 0; downLeft < maxDownLeft; downLeft++){
     var aDownLeft = document.querySelector("#_" + ("0" + ((Number(curRow) + 1) + downLeft)).slice(-2) + "_" + ("0" + ((Number(curCol) - 1) - downLeft)).slice(-2));
-    if(aDownLeft.innerText === ""){
+    if(aDownLeft.lang === ""){
       aDownLeft.classList.add("empty");
-    } else if (aDownLeft.innerText === "1"){
+      aDownLeft.innerText = "";
+    } else if (aDownLeft.lang === "1"){
         aDownLeft.classList.add("one");
+        aDownLeft.innerText = "1";
         downLeft = maxDownLeft;
-    } else if (aDownLeft.innerText === "2"){
+    } else if (aDownLeft.lang === "2"){
         aDownLeft.classList.add("two");
+        aDownLeft.innerText = "2";
         downLeft = maxDownLeft;
-    } else if (aDownLeft.innerText === "3"){
+    } else if (aDownLeft.lang === "3"){
         aDownLeft.classList.add("three");
+        aDownLeft.innerText = "3";
         downLeft = maxDownLeft;
-    } else if (aDownLeft.innerText === "4"){
+    } else if (aDownLeft.lang === "4"){
         aDownLeft.classList.add("four");
+        aDownLeft.innerText = "4";
         downLeft = maxDownLeft;
-    } else if (aDownLeft.innerText === "5"){
+    } else if (aDownLeft.lang === "5"){
         aDownLeft.classList.add("five");
+        aDownLeft.innerText = "5";
         downLeft = maxDownLeft;
-    } else if (aDownLeft.innerText === "6"){
+    } else if (aDownLeft.lang === "6"){
         aDownLeft.classList.add("six");
+        aDownLeft.innerText = "6";
         downLeft = maxDownLeft;
     } else {
         downLeft = maxDownLeft;
@@ -325,25 +384,32 @@ function searchDownRight(){
   }
   for (var downRight = 0; downRight < maxDownRight; downRight++){
     var aDownRight = document.querySelector("#_" + ("0" + ((Number(curRow) + 1) + downRight)).slice(-2) + "_" + ("0" + ((Number(curCol) + 1) + downRight)).slice(-2));
-    if(aDownRight.innerText === ""){
+    if(aDownRight.lang === ""){
       aDownRight.classList.add("empty");
-    } else if (aDownRight.innerText === "1"){
+      aDownRight.innerText = "";
+    } else if (aDownRight.lang === "1"){
         aDownRight.classList.add("one");
+        aDownRight.innerText = "1";
         downRight = maxDownRight;
-    } else if (aDownRight.innerText === "2"){
+    } else if (aDownRight.lang === "2"){
         aDownRight.classList.add("two");
+        aDownRight.innerText = "2";
         downRight = maxDownRight;
-    } else if (aDownRight.innerText === "3"){
+    } else if (aDownRight.lang === "3"){
         aDownRight.classList.add("three");
+        aDownRight.innerText = "3";
         downRight = maxDownRight;
-    } else if (aDownRight.innerText === "4"){
+    } else if (aDownRight.lang === "4"){
         aDownRight.classList.add("four");
+        aDownRight.innerText = "4";
         downRight = maxDownRight;
-    } else if (aDownRight.innerText === "5"){
+    } else if (aDownRight.lang === "5"){
         aDownRight.classList.add("five");
+        aDownRight.innerText = "5";
         downRight = maxDownRight;
-    } else if (aDownRight.innerText === "6"){
+    } else if (aDownRight.lang === "6"){
         aDownRight.classList.add("six");
+        aDownRight.innerText = "6";
         downRight = maxDownRight;
     } else {
         downRight = maxDownRight;
@@ -391,8 +457,9 @@ function endGame(){
   gameOver = true;
   event.stopPropagation();
   for (var i = 0; i < allBoxes.length; i++){
-    if (allBoxes[i].innerText === "B"){
+    if (allBoxes[i].lang === "B"){
       allBoxes[i].classList.add("bomb");  // Displays remaining bombs
+      allBoxes[i].innerText = "B";
     }
   }
 }
@@ -407,7 +474,7 @@ for (var i = 0; i < allBoxes.length; i++){
 }
 function onRightClick(ev){
 ev.preventDefault();
-  this.innerText = "X";
+  this.lang = "X";
 }
 
 
@@ -421,20 +488,20 @@ for (var i = 0; i < bombAmount; i++){
     var bombRows = bombGenerate[i][0].toString().length;  //finds out if the number is 1 or 2 digits.
     var bombCols = bombGenerate[i][1].toString().length;  //finds out if the number is 1 or 2 digits.
     if(bombRows === 1 && bombCols === 1){
-      document.querySelector('#_0'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).innerText = "B";
+      document.querySelector('#_0'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
     } else if (bombRows === 1 && bombCols === 2){
-      document.querySelector('#_0'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).innerText = "B";
+      document.querySelector('#_0'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
     } else if (bombRows === 2 && bombCols === 1){
-      document.querySelector('#_'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).innerText = "B";
+      document.querySelector('#_'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
     } else {
-      document.querySelector('#_'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).innerText = "B";
+      document.querySelector('#_'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
     }
   }
 
 // Generating number of bombs surrounding each box.
 function bombsSurrounding(a, b){
   if(document.querySelector("#_" + a + "_" + b)){
-    if (document.querySelector("#_" + a + "_" + b).innerText === "B"){
+    if (document.querySelector("#_" + a + "_" + b).lang === "B"){
       symbol += 1;
       }
   }
@@ -458,11 +525,11 @@ for (var x = 1; x <= rows; x++){
     bombsSurrounding(sqRowDown, sqCol);
     bombsSurrounding(sqRowDown, sqColRight);
 
-    if (document.querySelector("#_" + sqRow + "_" + sqCol).innerText === "B"){
+    if (document.querySelector("#_" + sqRow + "_" + sqCol).lang === "B"){
       symbol = "B";
       }
     if (symbol === 0){
       symbol = "";}
-    document.querySelector("#_" + sqRow + "_" + sqCol).innerText = symbol;
+    document.querySelector("#_" + sqRow + "_" + sqCol).lang = symbol;
       }
 }
