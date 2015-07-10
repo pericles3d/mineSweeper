@@ -1,18 +1,14 @@
-var bombAmount = 10;
+var bombAmount = 50;
 var rows = 16;
 var columns = 30;
 var numberOfRightFlags = 0;
 var numberOfWrongFlags = 0;
 var numberOfBombs = 0;
 var playerTurn = 1;
-
-// onClick (Open squares)
 var allBoxes = document.querySelectorAll(".box");
-for (var i = 0; i < allBoxes.length; i++){
-  allBoxes[i].addEventListener("click", onClick);
-}
 
-// mouse up event (changes the smiley face)
+
+// mouse click and release event (changes the smiley face)
 for (var i = 0; i < allBoxes.length; i++){  // when mouse is clicked changes the smiley to scared
   allBoxes[i].addEventListener("mousedown", clickPress);
 }
@@ -44,7 +40,7 @@ function countBombs(){
   }
 }
 
-// checking number of right flags. (Mines succesfully disarmed)
+// checking number of flags marked correctly. (Mines succesfully disarmed)
 function checkFlags(){
   for (var i = 0; i < allBoxes.length; i++){
     if(allBoxes[i].lang === "rightFlag"){
@@ -84,17 +80,26 @@ function checkBoard(){
 }
 
 
+// onClick (Open squares)
+for (var i = 0; i < allBoxes.length; i++){
+  allBoxes[i].addEventListener("click", onClick);
+}
 // On first click. Start game.
 var curRow;
 var curCol;
 var chronoRunning = false;
 var gameOver = false;
+var gameRunning = false;
 
 function onClick(){
-  checkTimes = 0; // resets the times it has checked for empty squares.
-  if (gameOver === true){  // checks if game is over to prevent further clicking.
-    return false;
+  if (gameRunning === false){
+  gameStart();
+  gameRunning = true;
   }
+  checkTimes = 0; // resets the times it has checked for empty squares.
+  // if (gameOver === true){  // checks if game is over to prevent further clicking.
+  //   return false;
+  // }
   if (chronoRunning === false){  // checks if chrono is already running (true after first click)
     chronoStart();               // checks if chrono is already running (true after first click)
   }                              // checks if chrono is already running (true after first click)
@@ -160,7 +165,7 @@ function onClick(){
   document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
 }
 
-//Search Up
+//Search Up (search for empty squares)
 function searchUp(){
   for (var up = 0; up < (curRow-1); up++){
     var aUp = document.querySelector("#_" + ("0" + ((Number(curRow) - 1) - up)).slice(-2) + "_" + curCol);
@@ -196,7 +201,7 @@ function searchUp(){
     }
   }
 }
-//Search Down
+//Search Down (search for empty squares)
 function searchDown(){
   for (var down = 0; down < (rows - curRow); down++){
     var aDown = document.querySelector("#_" + ("0" + ((Number(curRow) + 1) + down)).slice(-2) + "_" + curCol);
@@ -233,7 +238,7 @@ function searchDown(){
   }
 }
 
-//Search Left
+//Search Left (search for empty squares)
 function searchLeft(){
   for (var left = 0; left < (curCol - 1); left++){
     var aLeft = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) - 1) - left)).slice(-2));
@@ -270,7 +275,7 @@ function searchLeft(){
   }
 }
 
-//Search Right
+//Search Right (search for empty squares)
 function searchRight(){
   for (var right = 0; right < (columns - curCol); right++){
     var aRight = document.querySelector("#_" + curRow + "_" + ("0" + ((Number(curCol) + 1) + right)).slice(-2));
@@ -307,7 +312,7 @@ function searchRight(){
   }
 }
 
-// Search Up Left
+// Search Up Left (search for empty squares)
 function searchUpLeft(){
   var maxUpLeft;
   if ((curRow-1) < (curCol - 1)){
@@ -350,7 +355,7 @@ function searchUpLeft(){
   }
 }
 
-// Search Up Right
+// Search Up Right (search for empty squares)
 function searchUpRight(){
   var maxUpRight;
   if ((curRow-1) < (columns - curCol)){
@@ -393,7 +398,7 @@ function searchUpRight(){
   }
 }
 
-// Search Down Left
+// Search Down Left (search for empty squares)
 function searchDownLeft(){
   var maxDownLeft;
   if ((rows - curRow) < (curCol - 1)){
@@ -436,7 +441,7 @@ function searchDownLeft(){
   }
 }
 
-// Search Down Right
+// Search Down Right (search for empty squares)
 function searchDownRight(){
   var maxDownRight;
   if ((rows - curRow) < (columns - curCol)){
@@ -479,7 +484,7 @@ function searchDownRight(){
   }
 }
 
-// Making the clock to time the game.
+// Making the clock that times the game.
 var startTime = 0;
 var start = 0;
 var end = 0;
@@ -514,25 +519,65 @@ function chronoStop(){
 // Winning the game by flagging all mines.
 
 function winner(){
-  if(numberOfBombs === 0 && numberOfWrongFlags === 0){
+  if(numberOfBombs === 0 && numberOfWrongFlags === 0 && playerTurn === 1){
     document.querySelector(".smiley").innerHTML = '<img src="images/win_icon.png">';
     document.querySelector(".a04").innerText = document.querySelector("#chronotime").innerText;
     document.querySelector(".a06").innerText = document.querySelector(".bombDisplay").innerText;
+    document.querySelector(".a02").innerText = "Yeah!!!";
     chronoStop();
     chronoRunning = false;
     gameOver = true;
-    event.stopPropagation();
+
+  } else if (numberOfBombs === 0 && numberOfWrongFlags === 0 && playerTurn === 2){
+    document.querySelector(".smiley").innerHTML = '<img src="images/win_icon.png">';
+    document.querySelector(".b04").innerText = document.querySelector("#chronotime").innerText;
+    document.querySelector(".b06").innerText = document.querySelector(".bombDisplay").innerText;
+    document.querySelector(".b02").innerText = "Yeah!!!";
+    chronoStop();
+    chronoRunning = false;
+    gameOver = true;
+    if(document.querySelector(".a02").innerText === "Kabooom!" && document.querySelector(".b02").innerText === "Yeah!!!"){
+      document.querySelector(".a02").innerText = "Kabooom!";
+      document.querySelector(".b02").innerText = "Winner";
+    } else if(document.querySelector(".a02").innerText === "Yeah!!!" && document.querySelector(".b02").innerText === "Yeah!!!"){
+      var minutesPlayer01 = document.querySelector(".a04").innerText.slice(0,2);
+      var secondsPlayer01 = document.querySelector(".a04").innerText.slice(3,5);
+      var minutesPlayer02 = document.querySelector(".b04").innerText.slice(0,2);
+      var secondsPlayer02 = document.querySelector(".b04").innerText.slice(3,5);
+      var timePlayer01 = minutesPlayer01 + secondsPlayer01;
+      var timePlayer02 = minutesPlayer02 + secondsPlayer02;
+      console.log(timePlayer01);
+      console.log(timePlayer02);
+      if (timePlayer01 === timePlayer02){
+        document.querySelector(".a02").innerText = "Tie!!!";
+        document.querySelector(".b02").innerText = "Tie!!!";
+      } else if (timePlayer01 < timePlayer02){
+        document.querySelector(".a02").innerText = "Winner";
+        document.querySelector(".b02").innerText = "";
+      } else if (timePlayer01 > timePlayer02){
+        document.querySelector(".a02").innerText = "";
+        document.querySelector(".b02").innerText = "Winner";
+      } else {
+        document.querySelector(".a02").innerText = "Error";
+        document.querySelector(".b02").innerText = "Error";
+      }
+    }
   }
 }
 
 // Ending the game by explosion. Showing all bombs and resetting stuff.
 function endGame(){
+  if(playerTurn === 1){
+    document.querySelector(".a02").innerText = "Kabooom!";
+    document.querySelector(".a06").innerText = document.querySelector(".bombDisplay").innerText;
+  } else if (playerTurn === 2){
+    document.querySelector(".b02").innerText = "Kabooom!";
+    document.querySelector(".b06").innerText = document.querySelector(".bombDisplay").innerText;
+  }
   document.querySelector(".smiley").innerHTML = '<img src="images/lost_icon.png">';
-  document.querySelector(".a06").innerText = document.querySelector(".bombDisplay").innerText;
   chronoStop();
   chronoRunning = false;
   gameOver = true;
-  event.stopPropagation();
   for (var i = 0; i < allBoxes.length; i++){
     if (allBoxes[i].lang === "B"){
       allBoxes[i].classList.add("bomb");  // Displays remaining bombs
@@ -541,107 +586,112 @@ function endGame(){
       allBoxes[i].innerHTML = '<img src="images/bombMiss_icon.png">';
     }
   }
+  if (document.querySelector(".a02").innerText === "Yeah!!!" && document.querySelector(".b02").innerText === "Kabooom!"){
+    document.querySelector(".a02").innerText = "Winner";
+    document.querySelector(".b02").innerText = "Kabooom!";
+  }
 }
 
 
-// Flagging bombs. on Right click (Add flag to where you think a bomb is. Remove flag as well)
-for (var i = 0; i < allBoxes.length; i++){
-  allBoxes[i].addEventListener('contextmenu', onRightClick);
-}
-function onRightClick(ev){
-  ev.preventDefault();  // prevents a window popup when right mouse is clicked
-  if(this.innerText === "" && this.innerHTML === ""){  //if square is clean, ready to flag
-    this.innerHTML = '<img src="images/flag_icon.png">'; // adds the flag on right click
-    if(this.lang === ""){  // if that's an empty square and you missed,
-      this.classList.add("0"); // add a 0 to classList so we know how to revert it later.
-      this.lang = "wrongFlag"; // lang = wrong flag for flag tracking
-    } else if(this.lang !== "B"){ // else if the square holds any number that's not a bomb you missed as well
-      this.classList.add(this.lang); //add the number to classList so we know how to revert it later.
-      this.lang = "wrongFlag"; // lang = wrong flag for flag tracking.
-    } else {
-      this.classList.add(this.lang); //You flagged a bomb. add "B" to classList in case we need to revert it later
-      this.lang = "rightFlag"; // lang = right flag for flag tracking
-    }
-  } else if (this.innerHTML === '<img src="images/flag_icon.png">'){ //if the square contains a flag
-      this.innerHTML = "";  // change innerHTML back to "" to remove the flag
-      if (this.classList.item(2) === "0"){ //if there is a "0" in classList
-        this.lang = ""; //change lang value to "" because it's an empty square
-        this.classList.remove("0"); //remove the "0" from classList
+// Right click to flag bombs. on Right click (Add flag to where you think a bomb is. Remove flag as well)
+  for (var i = 0; i < allBoxes.length; i++){
+    allBoxes[i].addEventListener('contextmenu', onRightClick);
+  }
+  function onRightClick(ev){
+    ev.preventDefault();  // prevents a window popup when right mouse is clicked
+    if(this.innerText === "" && this.innerHTML === ""){  //if square is clean, ready to flag
+      this.innerHTML = '<img src="images/flag_icon.png">'; // adds the flag on right click
+      if(this.lang === ""){  // if that's an empty square and you missed,
+        this.classList.add("0"); // add a 0 to classList so we know how to revert it later.
+        this.lang = "wrongFlag"; // lang = wrong flag for flag tracking
+      } else if(this.lang !== "B"){ // else if the square holds any number that's not a bomb you missed as well
+        this.classList.add(this.lang); //add the number to classList so we know how to revert it later.
+        this.lang = "wrongFlag"; // lang = wrong flag for flag tracking.
       } else {
-        this.lang = this.classList.item(2); //add the number back to the square.
-        this.classList.remove(this.lang); //remove the number from classList.
+        this.classList.add(this.lang); //You flagged a bomb. add "B" to classList in case we need to revert it later
+        this.lang = "rightFlag"; // lang = right flag for flag tracking
+      }
+    } else if (this.innerHTML === '<img src="images/flag_icon.png">'){ //if the square contains a flag
+        this.innerHTML = "";  // change innerHTML back to "" to remove the flag
+        if (this.classList.item(2) === "0"){ //if there is a "0" in classList
+          this.lang = ""; //change lang value to "" because it's an empty square
+          this.classList.remove("0"); //remove the "0" from classList
+        } else {
+          this.lang = this.classList.item(2); //add the number back to the square.
+          this.classList.remove(this.lang); //remove the number from classList.
+        }
+      }
+    numberOfRightFlags = 0; // resets the number before checking again
+    numberOfWrongFlags = 0; // resets the number before checking again
+    checkFlags();
+    console.log("Right flags =" +numberOfRightFlags);
+    console.log("Wrong Flags = " + numberOfWrongFlags);
+    numberOfBombs = 0; // resets the number before checking again
+    countBombs();
+    console.log("Total Bombs = " + numberOfBombs);
+    document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
+    winner();
+  }
+
+
+  // Generating random bomb location.
+function gameStart(){
+  var bombGenerate = [];
+
+  for (var i = 0; i < bombAmount; i++){
+    bombGenerate[i] = [
+      Math.ceil(Math.random() * rows),  //generates a number from 1 to number of rows
+      Math.ceil(Math.random() * columns)];  //generates a number from 1 to the number of columns.
+
+
+      var bombRows = bombGenerate[i][0].toString().length;  //finds out if the number is 1 or 2 digits.
+      var bombCols = bombGenerate[i][1].toString().length;  //finds out if the number is 1 or 2 digits.
+      if(bombRows === 1 && bombCols === 1){
+        document.querySelector('#_0'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
+      } else if (bombRows === 1 && bombCols === 2){
+        document.querySelector('#_0'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
+      } else if (bombRows === 2 && bombCols === 1){
+        document.querySelector('#_'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
+      } else {
+        document.querySelector('#_'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
       }
     }
-  numberOfRightFlags = 0; // resets the number before checking again
-  numberOfWrongFlags = 0; // resets the number before checking again
-  checkFlags();
-  console.log("Right flags =" +numberOfRightFlags);
-  console.log("Wrong Flags = " + numberOfWrongFlags);
-  numberOfBombs = 0; // resets the number before checking again
-  countBombs();
-  console.log("Total Bombs = " + numberOfBombs);
-  document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
-  winner();
-}
 
-
-// Generating random bomb location.
-
-var bombGenerate = [];
-
-for (var i = 0; i < bombAmount; i++){
-  bombGenerate[i] = [
-    Math.ceil(Math.random() * rows),  //generates a number from 1 to number of rows
-    Math.ceil(Math.random() * columns)];  //generates a number from 1 to the number of columns.
-
-
-    var bombRows = bombGenerate[i][0].toString().length;  //finds out if the number is 1 or 2 digits.
-    var bombCols = bombGenerate[i][1].toString().length;  //finds out if the number is 1 or 2 digits.
-    if(bombRows === 1 && bombCols === 1){
-      document.querySelector('#_0'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
-    } else if (bombRows === 1 && bombCols === 2){
-      document.querySelector('#_0'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
-    } else if (bombRows === 2 && bombCols === 1){
-      document.querySelector('#_'+bombGenerate[i][0]+'_0'+bombGenerate[i][1]).lang = "B";
-    } else {
-      document.querySelector('#_'+bombGenerate[i][0]+'_'+bombGenerate[i][1]).lang = "B";
+  // Generating number of bombs surrounding each box.
+  function bombsSurrounding(a, b){
+    if(document.querySelector("#_" + a + "_" + b)){
+      if (document.querySelector("#_" + a + "_" + b).lang === "B"){
+        symbol += 1;
+        }
     }
   }
 
-// Generating number of bombs surrounding each box.
-function bombsSurrounding(a, b){
-  if(document.querySelector("#_" + a + "_" + b)){
-    if (document.querySelector("#_" + a + "_" + b).lang === "B"){
-      symbol += 1;
+  for (var x = 1; x <= rows; x++){
+    for (var y = 1; y <= columns; y++){
+      var sqRow = ("0" + x).slice(-2);
+      var sqCol = ("0" + y).slice(-2);
+      var sqRowUp = ("0" + (Number(sqRow) - 1)).slice(-2);
+      var sqRowDown = ("0" + (Number(sqRow) + 1)).slice(-2);
+      var sqColLeft = ("0" + (Number(sqCol) - 1)).slice(-2);
+      var sqColRight = ("0" + (Number(sqCol) + 1)).slice(-2);
+      var symbol = 0;
+      bombsSurrounding(sqRowUp, sqColLeft);
+      bombsSurrounding(sqRowUp, sqCol);
+      bombsSurrounding(sqRowUp, sqColRight);
+      bombsSurrounding(sqRow, sqColLeft);
+      bombsSurrounding(sqRow, sqColRight);
+      bombsSurrounding(sqRowDown, sqColLeft);
+      bombsSurrounding(sqRowDown, sqCol);
+      bombsSurrounding(sqRowDown, sqColRight);
+
+      if (document.querySelector("#_" + sqRow + "_" + sqCol).lang === "B"){
+        symbol = "B";
+      }
+      if (symbol === 0){
+        symbol = "";}
+      document.querySelector("#_" + sqRow + "_" + sqCol).lang = symbol;
       }
   }
-}
-
-for (var x = 1; x <= rows; x++){
-  for (var y = 1; y <= columns; y++){
-    var sqRow = ("0" + x).slice(-2);
-    var sqCol = ("0" + y).slice(-2);
-    var sqRowUp = ("0" + (Number(sqRow) - 1)).slice(-2);
-    var sqRowDown = ("0" + (Number(sqRow) + 1)).slice(-2);
-    var sqColLeft = ("0" + (Number(sqCol) - 1)).slice(-2);
-    var sqColRight = ("0" + (Number(sqCol) + 1)).slice(-2);
-    var symbol = 0;
-    bombsSurrounding(sqRowUp, sqColLeft);
-    bombsSurrounding(sqRowUp, sqCol);
-    bombsSurrounding(sqRowUp, sqColRight);
-    bombsSurrounding(sqRow, sqColLeft);
-    bombsSurrounding(sqRow, sqColRight);
-    bombsSurrounding(sqRowDown, sqColLeft);
-    bombsSurrounding(sqRowDown, sqCol);
-    bombsSurrounding(sqRowDown, sqColRight);
-
-    if (document.querySelector("#_" + sqRow + "_" + sqCol).lang === "B"){
-      symbol = "B";
-      }
-    if (symbol === 0){
-      symbol = "";}
-    document.querySelector("#_" + sqRow + "_" + sqCol).lang = symbol;
-      }
 }
 
 // Reset game
@@ -659,6 +709,50 @@ function changePlayers(){
     document.querySelector(".player2").style.backgroundColor = 'rgb(225, 225, 225)';
     playerTurn = 1;
     console.log(playerTurn);
+    document.querySelector(".a02").innerText = "";
+    document.querySelector(".b02").innerText = "";
+    document.querySelector(".a04").innerText = "00:00";
+    document.querySelector(".b04").innerText = "00:00";
+    document.querySelector(".a06").innerText = "0";
+    document.querySelector(".b06").innerText = "0";
   }
-  // location.reload(
+  for (var i = 0; i < allBoxes.length; i++){
+    allBoxes[i].classList.remove("empty");
+    allBoxes[i].classList.remove("one");
+    allBoxes[i].classList.remove("two");
+    allBoxes[i].classList.remove("three");
+    allBoxes[i].classList.remove("four");
+    allBoxes[i].classList.remove("five");
+    allBoxes[i].classList.remove("six");
+    allBoxes[i].classList.remove("seven");
+    allBoxes[i].classList.remove("eight");
+    allBoxes[i].classList.remove("bomb");
+    allBoxes[i].classList.remove("bombExploded");
+    allBoxes[i].classList.remove("b");
+    allBoxes[i].classList.remove("1");
+    allBoxes[i].classList.remove("2");
+    allBoxes[i].classList.remove("3");
+    allBoxes[i].classList.remove("4");
+    allBoxes[i].classList.remove("5");
+    allBoxes[i].classList.remove("6");
+    allBoxes[i].classList.remove("7");
+    allBoxes[i].classList.remove("8");
+    allBoxes[i].classList.remove("9");
+    allBoxes[i].classList.remove("0");
+    allBoxes[i].lang = "";
+    allBoxes[i].innerText = "";
+    allBoxes[i].innerHTML = "";
+  }
+  numberOfRightFlags = 0;
+  numberOfWrongFlags = 0;
+  numberOfBombs = 0;
+  curRow = "";
+  curCol = "";
+  chronoStop();
+  chronoRunning = false;
+  gameOver = false;
+  gameRunning = false;
+  document.querySelector(".smiley").innerHTML = '<img src="images/smile_icon.png">';
+  document.querySelector(".bombDisplay").innerText = "00";
+  document.querySelector("#chronotime").innerText = "00:00";
 }
