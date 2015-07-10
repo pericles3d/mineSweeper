@@ -1,9 +1,10 @@
-var bombAmount = 70;
+var bombAmount = 10;
 var rows = 16;
 var columns = 30;
 var numberOfRightFlags = 0;
 var numberOfWrongFlags = 0;
 var numberOfBombs = 0;
+var playerTurn = 1;
 
 // onClick (Open squares)
 var allBoxes = document.querySelectorAll(".box");
@@ -17,6 +18,9 @@ for (var i = 0; i < allBoxes.length; i++){  // when mouse is clicked changes the
 }
 
 function clickPress(){
+  if (gameOver === true){  // checks if game is over to prevent further clicking.
+    return false;
+  }
   document.querySelector(".smiley").innerHTML = '<img src="images/scared_icon.png">';
 }
 
@@ -25,6 +29,9 @@ for (var i = 0; i < allBoxes.length; i++){
 }
 
 function clickRelease(){
+  if (gameOver === true){  // checks if game is over to prevent further clicking.
+    return false;
+  }
   document.querySelector(".smiley").innerHTML = '<img src="images/smile_icon.png">';
 }
 
@@ -504,10 +511,24 @@ function chronoStop(){
 	clearTimeout(timerID);
 }
 
+// Winning the game by flagging all mines.
+
+function winner(){
+  if(numberOfBombs === 0 && numberOfWrongFlags === 0){
+    document.querySelector(".smiley").innerHTML = '<img src="images/win_icon.png">';
+    document.querySelector(".a04").innerText = document.querySelector("#chronotime").innerText;
+    document.querySelector(".a06").innerText = document.querySelector(".bombDisplay").innerText;
+    chronoStop();
+    chronoRunning = false;
+    gameOver = true;
+    event.stopPropagation();
+  }
+}
+
 // Ending the game by explosion. Showing all bombs and resetting stuff.
 function endGame(){
   document.querySelector(".smiley").innerHTML = '<img src="images/lost_icon.png">';
-  console.log("Kaboom!!!");
+  document.querySelector(".a06").innerText = document.querySelector(".bombDisplay").innerText;
   chronoStop();
   chronoRunning = false;
   gameOver = true;
@@ -516,6 +537,8 @@ function endGame(){
     if (allBoxes[i].lang === "B"){
       allBoxes[i].classList.add("bomb");  // Displays remaining bombs
       allBoxes[i].innerHTML = '<img src="images/bomb_icon.png">';
+    } else if (allBoxes[i].lang === "wrongFlag"){
+      allBoxes[i].innerHTML = '<img src="images/bombMiss_icon.png">';
     }
   }
 }
@@ -527,26 +550,26 @@ for (var i = 0; i < allBoxes.length; i++){
 }
 function onRightClick(ev){
   ev.preventDefault();  // prevents a window popup when right mouse is clicked
-  if(this.innerText === "" && this.innerHTML === ""){
-    this.innerHTML = '<img src="images/flag_icon.png">';
-    if(this.lang === ""){
-      this.classList.add("0");
-      this.lang = "wrongFlag";
-    } else if(this.lang !== "B"){
-      this.classList.add(this.lang);
-      this.lang = "wrongFlag";
+  if(this.innerText === "" && this.innerHTML === ""){  //if square is clean, ready to flag
+    this.innerHTML = '<img src="images/flag_icon.png">'; // adds the flag on right click
+    if(this.lang === ""){  // if that's an empty square and you missed,
+      this.classList.add("0"); // add a 0 to classList so we know how to revert it later.
+      this.lang = "wrongFlag"; // lang = wrong flag for flag tracking
+    } else if(this.lang !== "B"){ // else if the square holds any number that's not a bomb you missed as well
+      this.classList.add(this.lang); //add the number to classList so we know how to revert it later.
+      this.lang = "wrongFlag"; // lang = wrong flag for flag tracking.
     } else {
-      this.classList.add(this.lang);
-      this.lang = "rightFlag";
+      this.classList.add(this.lang); //You flagged a bomb. add "B" to classList in case we need to revert it later
+      this.lang = "rightFlag"; // lang = right flag for flag tracking
     }
-  } else if (this.innerHTML === '<img src="images/flag_icon.png">'){
-      this.innerHTML = "";
-      if (this.classList.item(2) === "0"){
-        this.lang = "";
-        this.classList.remove("0");
+  } else if (this.innerHTML === '<img src="images/flag_icon.png">'){ //if the square contains a flag
+      this.innerHTML = "";  // change innerHTML back to "" to remove the flag
+      if (this.classList.item(2) === "0"){ //if there is a "0" in classList
+        this.lang = ""; //change lang value to "" because it's an empty square
+        this.classList.remove("0"); //remove the "0" from classList
       } else {
-        this.lang = this.classList.item(2);
-        this.classList.remove(this.lang);
+        this.lang = this.classList.item(2); //add the number back to the square.
+        this.classList.remove(this.lang); //remove the number from classList.
       }
     }
   numberOfRightFlags = 0; // resets the number before checking again
@@ -558,16 +581,20 @@ function onRightClick(ev){
   countBombs();
   console.log("Total Bombs = " + numberOfBombs);
   document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
+  winner();
 }
 
 
 // Generating random bomb location.
+
 var bombGenerate = [];
 
 for (var i = 0; i < bombAmount; i++){
   bombGenerate[i] = [
     Math.ceil(Math.random() * rows),  //generates a number from 1 to number of rows
     Math.ceil(Math.random() * columns)];  //generates a number from 1 to the number of columns.
+
+
     var bombRows = bombGenerate[i][0].toString().length;  //finds out if the number is 1 or 2 digits.
     var bombCols = bombGenerate[i][1].toString().length;  //finds out if the number is 1 or 2 digits.
     if(bombRows === 1 && bombCols === 1){
@@ -615,4 +642,23 @@ for (var x = 1; x <= rows; x++){
       symbol = "";}
     document.querySelector("#_" + sqRow + "_" + sqCol).lang = symbol;
       }
+}
+
+// Reset game
+var myResetButton = document.querySelector('.smiley');
+myResetButton.addEventListener('click', changePlayers);
+
+function changePlayers(){
+  if(playerTurn === 1){
+    document.querySelector(".player1").style.backgroundColor = 'rgb(225, 225, 225)';
+    document.querySelector(".player2").style.backgroundColor = 'rgb(239, 238, 169)';
+    playerTurn = 2;
+    console.log(playerTurn);
+  } else {
+    document.querySelector(".player1").style.backgroundColor = 'rgb(239, 238, 169)';
+    document.querySelector(".player2").style.backgroundColor = 'rgb(225, 225, 225)';
+    playerTurn = 1;
+    console.log(playerTurn);
+  }
+  // location.reload(
 }
