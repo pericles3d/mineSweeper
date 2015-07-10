@@ -1,11 +1,52 @@
 var bombAmount = 70;
 var rows = 16;
 var columns = 30;
+var numberOfRightFlags = 0;
+var numberOfWrongFlags = 0;
+var numberOfBombs = 0;
 
 // onClick (Open squares)
 var allBoxes = document.querySelectorAll(".box");
 for (var i = 0; i < allBoxes.length; i++){
-  allBoxes[i].addEventListener('click', onClick);
+  allBoxes[i].addEventListener("click", onClick);
+}
+
+// mouse up event (changes the smiley face)
+for (var i = 0; i < allBoxes.length; i++){  // when mouse is clicked changes the smiley to scared
+  allBoxes[i].addEventListener("mousedown", clickPress);
+}
+
+function clickPress(){
+  document.querySelector(".smiley").innerHTML = '<img src="images/scared_icon.png">';
+}
+
+for (var i = 0; i < allBoxes.length; i++){
+  allBoxes[i].addEventListener("mouseup", clickRelease);
+}
+
+function clickRelease(){
+  document.querySelector(".smiley").innerHTML = '<img src="images/smile_icon.png">';
+}
+
+// checking for number of bombs in the board.
+function countBombs(){
+  for (var i = 0; i < allBoxes.length; i++){
+    if(allBoxes[i].lang === "B"){
+      numberOfBombs ++;
+    }
+  }
+}
+
+// checking number of right flags. (Mines succesfully disarmed)
+function checkFlags(){
+  for (var i = 0; i < allBoxes.length; i++){
+    if(allBoxes[i].lang === "rightFlag"){
+      numberOfRightFlags ++;
+    }
+    if(allBoxes[i].lang === "wrongFlag"){
+      numberOfWrongFlags ++;
+    }
+  }
 }
 
 // Checking the board for empty squares and opening them.
@@ -41,6 +82,7 @@ var curRow;
 var curCol;
 var chronoRunning = false;
 var gameOver = false;
+
 function onClick(){
   checkTimes = 0; // resets the times it has checked for empty squares.
   if (gameOver === true){  // checks if game is over to prevent further clicking.
@@ -100,6 +142,15 @@ function onClick(){
     this.innerHTML = '<img src="images/boom_icon.png">';
     endGame();
   }
+  numberOfRightFlags = 0; // resets the number before checking again
+  numberOfWrongFlags = 0; // resets the number before checking again
+  numberOfBombs = 0;  // resets the number before checking again
+  checkFlags();
+  console.log("Right flags =" +numberOfRightFlags);
+  console.log("Wrong Flags = " + numberOfWrongFlags);
+  countBombs();
+  console.log("Total Bombs = " + numberOfBombs);
+  document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
 }
 
 //Search Up
@@ -455,6 +506,7 @@ function chronoStop(){
 
 // Ending the game by explosion. Showing all bombs and resetting stuff.
 function endGame(){
+  document.querySelector(".smiley").innerHTML = '<img src="images/lost_icon.png">';
   console.log("Kaboom!!!");
   chronoStop();
   chronoRunning = false;
@@ -468,21 +520,44 @@ function endGame(){
   }
 }
 
-//display bombs marked wrong
 
-
-// on Right click (Add flag to where you think a bomb is. Remove flag as well)
+// Flagging bombs. on Right click (Add flag to where you think a bomb is. Remove flag as well)
 for (var i = 0; i < allBoxes.length; i++){
   allBoxes[i].addEventListener('contextmenu', onRightClick);
 }
 function onRightClick(ev){
-  ev.preventDefault();
+  ev.preventDefault();  // prevents a window popup when right mouse is clicked
   if(this.innerText === "" && this.innerHTML === ""){
     this.innerHTML = '<img src="images/flag_icon.png">';
-    console.log(this.innerHTML);
+    if(this.lang === ""){
+      this.classList.add("0");
+      this.lang = "wrongFlag";
+    } else if(this.lang !== "B"){
+      this.classList.add(this.lang);
+      this.lang = "wrongFlag";
+    } else {
+      this.classList.add(this.lang);
+      this.lang = "rightFlag";
+    }
   } else if (this.innerHTML === '<img src="images/flag_icon.png">'){
-    this.innerHTML = "";
-  }
+      this.innerHTML = "";
+      if (this.classList.item(2) === "0"){
+        this.lang = "";
+        this.classList.remove("0");
+      } else {
+        this.lang = this.classList.item(2);
+        this.classList.remove(this.lang);
+      }
+    }
+  numberOfRightFlags = 0; // resets the number before checking again
+  numberOfWrongFlags = 0; // resets the number before checking again
+  checkFlags();
+  console.log("Right flags =" +numberOfRightFlags);
+  console.log("Wrong Flags = " + numberOfWrongFlags);
+  numberOfBombs = 0; // resets the number before checking again
+  countBombs();
+  console.log("Total Bombs = " + numberOfBombs);
+  document.querySelector(".bombDisplay").innerText = numberOfBombs - numberOfWrongFlags;
 }
 
 

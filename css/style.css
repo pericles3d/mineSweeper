@@ -9,11 +9,39 @@ body{
 }
 
 .container{
+  position: relative;
   margin: 0 auto;
   width: 790px;
 }
 
+.displayBox{
+  position: absolute;
+  background-color: rgb(185, 185, 185);
+  width: 779px;
+  height: 87px;
+  margin-top: 25px;
+}
+
+.bombsText{
+  position: absolute;
+  margin-left: 151px;
+  margin-top: 43px;
+  color: rgb(61, 61, 61);
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.timeText{
+  position: absolute;
+  margin-left: 572px;
+  margin-top: 43px;
+  color: rgb(61, 61, 61);
+  font-size: 22px;
+  font-weight: bold;
+}
+
 .borderMain{
+  margin-top: 112px;
   width: 779px;
   height: 5px;
   border-top: 3px solid rgb(90, 90, 90);
@@ -24,10 +52,43 @@ body{
   background-color: rgb(144, 144, 144);
 }
 
-#chronotime{
-  float: right;
+.bombDisplay{
+  position: absolute;
+  margin-left: 170px;
+  margin-top: 70px;
   color: red;
-  padding-right: 20px;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+/*img.button-send {
+background: url(img/agentsprite.png) 0 0;
+width:87px;
+height:34px;
+opacity:0;
+}
+img.button-send:active {
+background: url(img/agentsprite.png) 34 174;
+width:87px;
+height:34px;
+}*/
+
+.smiley{
+  position: absolute;
+  margin-left: 350px;
+  margin-top: 33px;
+  border-radius: 10px;
+  background-color: rgb(223, 223, 223);
+  box-shadow: 2px 2px 1px rgb(89, 89, 89);
+  outline: none;
+}
+
+
+#chronotime{
+  position: absolute;
+  margin-left: 566px;
+  margin-top: 70px;
+  color: red;
   font-size: 27px;
   font-weight: bold;
 }
@@ -128,7 +189,7 @@ body{
 }
 
 .bombExploded{
-  background-color: rgb(185, 185, 185);
+  background-color: red;
   color: red;
   font-weight: bold;
   line-height: 22px;
